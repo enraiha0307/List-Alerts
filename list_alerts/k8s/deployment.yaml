@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: list-alerts
+  labels: 
+    app: web
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: list-alerts
+  template:
+    metadata:
+      labels:
+        app: list-alerts
+    spec:
+     containers:
+      - name: list-alerts
+        image: akanksha0307/list_alerts_by_severity:v1
+        ports:
+          - containerPort: 8080
+
+      
+
+   
+

@@ -1,0 +1,17 @@
+{
+	"ulid": "01FG6VY295FFFS809JE2V42WMH",
+	"minTime": 1632307395697,
+	"maxTime": 1632312000000,
+	"stats": {
+		"numSamples": 223672,
+		"numSeries": 1383,
+		"numChunks": 2021
+	},
+	"compaction": {
+		"level": 1,
+		"sources": [
+			"01FG6VY295FFFS809JE2V42WMH"
+		]
+	},
+	"version": 1
+}

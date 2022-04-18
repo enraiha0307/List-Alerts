@@ -1,0 +1,123 @@
+openapi: '3.0.2'
+info:
+  title: List All Alerts API
+  version: '1.0'
+
+servers:
+  - url: /
+paths:
+ /api/v1/alerts:
+    get:
+      summary: get all alerts
+      responses:
+        '200':
+          description: OK
+        
+        '400':
+          description: 'Bad Request, Unable to parse the alert message.'
+      
+        '500':
+          description: Internal server error
+     
+     
+      description: |
+        receiving new alert
+        For example:
+        ```
+        GET /api/v1/alerts
+        ```
+        Sample request body will be :
+        ```
+          {
+            Data structure is wriiten accoring to https://godoc.org/github.com/prometheus/alertmanager/template#Data
+              "receiver": "admins-critical",
+              "status": "resolved",
+              "alerts": [
+                  {
+                      "status": "resolved",
+                      "labels": {
+                          "alertname": "node_down",
+                          "env": "prod",
+                          "instance": "testhost.local:9100",
+                          "job": "node",
+                          "monitor": "prometheus",
+                          "severity": "critical"
+                      },
+                      "annotations": {
+                          "description": "testhost.local:9100 of job node has been down for more than 5 minutes.",
+                          "summary": "Instance testhost.local:9100 down"
+                      },
+                      "startsAt": "2016-04-21T20:14:37.698Z",
+                      "endsAt": "2016-04-21T20:15:37.698Z",
+                      "generatorURL": "https://monitoring.promehteus.local/graph#%5B%7B%22expr%22%3A%22up%20%3D%3D%200%22%2C%22tab%22%3A0%7D%5D"
+                  }
+              ],
+              "groupLabels": {
+                  "alertname": "node_down",
+                  "instance": "testhost.local:9100"
+              },
+              "commonLabels": {
+                  "alertname": "node_down",
+                  "env": "prod",
+                  "instance": "testhost.local:9100",
+                  "job": "node",
+                  "monitor": "prometheus",
+                  "severity": "critical"
+              },
+              "commonAnnotations": {
+                  "description": "testhost.local:9100 of job node has been down for more than 5 minutes.",
+                  "summary": "Instance testhost.local:9100 down"
+              },
+              "externalURL": "https://am.promehteus.local",
+              "version": "3",
+              "groupKey": "somenumber"
+          }
+        ```
+      tags:
+        - list-alerts
+
+components:
+  schemas:
+    OK:
+      type: object
+      properties:
+        messsage:
+          type: string
+          description: Operation was successful
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+      
+    alerts:
+      type: array
+      items:
+        $ref: '#/components/schemas/alert'
+    alert:
+      type: object
+      properties:
+        status:
+          type: string
+        startsAt:
+          type: string
+          format: date-time
+        endsAt:
+          type: string
+          format: date-time
+        generatorURL:
+          type: string
+          format: uri
+        labels:
+          $ref: '#/components/schemas/labelSet'
+        annotations:
+          $ref: '#/components/schemas/labelSet'
+    labelSet:
+      type: object
+      additionalProperties:
+        type: string
